@@ -1,34 +1,27 @@
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 // Add imports above this line
 import { galleryItems } from './gallery-items';
-import SimpleLightbox from 'simplelightbox';
-
-import 'simplelightbox/dist/simple-lightbox.min.css';
-
 // Change code below this line
 
-const galleryContainer = document.querySelector('.gallery');
-const galleryCardsSet = createGallery(galleryItems);
+const imagesMenuEl = document.querySelector('.gallery');
+imagesMenuEl.style.listStyle = 'none';
 
-function createGallery(galleryItems) {
-  return galleryItems
-    .map(({ original, preview, description }) => {
-      return `<div class="gallery__item" style="border-radius: 4px; background: transparent; box-shadow: none;">
-  <a class="gallery__item" href="${original}" style= "box-shadow: none;" style="border-radius: 4px;">
-  <img class="gallery__image" src="${preview}" alt="${description}" style="border: 1px solid transparent;
-  border-radius: 4px;
-  padding: 5px; background: rgba(255, 255, 255, 0.3); box-shadow: 0px 1px 3px 0px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 2px 1px -1px rgb(0 0 0 / 12%);"/>
-</a>
-</div>`;
-    })
+function createImages(image) {
+  return image
+    .map(
+      ({ preview, original, description }) => `<li class="gallery__item">
+  <a class="gallery__link" href="${original}">
+    <img class="gallery__image" src="${preview}" alt="${description}" />
+  </a>
+</li>`
+    )
     .join('');
 }
 
-galleryContainer.insertAdjacentHTML('beforeend', galleryCardsSet);
+imagesMenuEl.insertAdjacentHTML('beforeend', createImages(galleryItems));
 
-const lightbox = new SimpleLightbox('.gallery a', {
-  caption: true,
-  captionsData: 'alt',
+const lightbox = new SimpleLightbox('.gallery__link', {
   captionDelay: 250,
+  captionsData: 'alt',
 });
-
-console.log(galleryItems);
